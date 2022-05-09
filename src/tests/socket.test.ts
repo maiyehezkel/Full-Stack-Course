@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 import server from "../app"
 import User from "../models/user_model";
 import request from "supertest";
-import {closeSocketServer} from "../socket_server"
-import Post from "../models/post_model"
+import { closeSocketServer } from "../socket_server"
+
 
 type UserInfo = {
     id: string,
@@ -16,7 +16,7 @@ type UserInfo = {
 
 const user1: UserInfo = {
     id: "",
-    email: "test1@socket.com",
+    email: "user1@socket.com",
     password: "1234567",
     accessToken: "",
     clientSocket: null
@@ -24,7 +24,7 @@ const user1: UserInfo = {
 
 const user2: UserInfo = {
     id: "",
-    email: "test2@socket.com",
+    email: "user2@socket.com",
     password: "1234567",
     accessToken: "",
     clientSocket: null
@@ -47,7 +47,6 @@ const serverCleanup = async () => {
 afterAll(async () => {
     user1.clientSocket.close()
     user2.clientSocket.close()
-    await Post.deleteMany({ sender: user1.id });
     await User.deleteMany({ email: user1.email });
     await User.deleteMany({ email: user2.email });
     await closeSocketServer()
@@ -70,7 +69,7 @@ describe("Socket IO server test", () => {
         await registerUser(user1)
         await registerUser(user2)
     })
-
+    
     const openClientConnection = (userInfo: UserInfo, done) => {
         userInfo.clientSocket = Client("http://localhost:" + process.env.PORT, {
             auth: {
@@ -152,3 +151,4 @@ describe("Socket IO server test", () => {
             });
     })
 });
+

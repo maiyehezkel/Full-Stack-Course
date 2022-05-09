@@ -14,6 +14,7 @@ beforeAll(async ()=>{
 afterAll(async ()=>{
     await User.remove({ email: email });
     mongoose.connection.close()
+
 })
 
 const email="test1@a.com"
